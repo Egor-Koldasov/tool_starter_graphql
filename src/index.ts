@@ -1,16 +1,15 @@
 import { ApolloServer } from 'apollo-server';
-import { db } from './database/db-connection';
+import { getResolvers } from './resolvers';
 import typeDefs from './schema';
 
 
-const server = new ApolloServer({ typeDefs });
+const server = new ApolloServer({ typeDefs, resolvers: getResolvers() });
 
-db('user').then(console.log);
-
-server.listen().then(() => {
+const port = 4000;
+server.listen({host: '0.0.0.0', port}).then(() => {
   console.log(`
     Server is running!
-    Listening on port 4000
+    Listening on port ${port}
     Explore at https://studio.apollographql.com/dev
   `);
 });

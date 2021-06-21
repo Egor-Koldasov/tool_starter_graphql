@@ -3,7 +3,7 @@ import { gql } from 'apollo-server';
 
 const typeDefs = gql`
   # Your schema will go here
-    type Launch {
+  type Launch {
     id: ID!
     site: String
     mission: Mission
@@ -18,7 +18,7 @@ const typeDefs = gql`
   }
 
   type User {
-    id: ID!
+    id: Int!
     email: String!
     trips: [Launch]!
     token: String
@@ -38,6 +38,7 @@ const typeDefs = gql`
     launches: [Launch]!
     launch(id: ID!): Launch
     me: User
+    getUser(id: Int!): User
   }
 
   type Mutation {

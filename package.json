@@ -8,17 +8,24 @@
     "start": "node ./dist/index.js",
     "build_start": "npm run build && npm run start",
     "dev": "ts-node-dev ./src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "Egor Koldasov",
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^2.19.2",
     "knex": "^0.21.16",
-    "pg": "^8.5.1"
+    "pg": "^8.5.1",
+    "require-all": "^3.0.0"
   },
   "devDependencies": {
-    "ts-node": "^9.1.1",
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.5",
+    "@babel/preset-typescript": "^7.14.5",
+    "@types/require-all": "^3.0.2",
+    "@types/jest": "^26.0.23",
+    "babel-jest": "^27.0.2",
+    "jest": "^27.0.4",
     "ts-node-dev": "^1.1.1",
     "typescript": "^4.1.3"
   }
