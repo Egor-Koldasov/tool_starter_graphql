@@ -1,5 +1,5 @@
 {
-  "name": "graphql",
+  "name": "graphql_server",
   "version": "1.0.0",
   "description": "GrapgQL server",
   "main": "index.js",
@@ -7,25 +7,33 @@
     "build": "tsc",
     "start": "node ./dist/index.js",
     "build_start": "npm run build && npm run start",
-    "dev": "ts-node-dev ./src/index.ts",
+    "dev": "nodemon --inspect --signal SIGINT src/index.ts",
+    "dev_": "node --trace-warnings --inspect -r ts-node/register src/index.ts",
+    "dev___": "forever start -f -a -w --uid graphql -c 'node --trace-warnings --inspect -r ts-node/register' src/index.ts && forever logs -f 0",
+    "dev__": "ts-node-dev ./src/index.ts",
     "test": "jest"
   },
   "author": "Egor Koldasov",
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^2.19.2",
+    "forever": "^4.0.1",
+    "graphql": "^15.5.1",
     "knex": "^0.21.16",
+    "nodemon": "^2.0.12",
     "pg": "^8.5.1",
-    "require-all": "^3.0.0"
+    "require-all": "^3.0.0",
+    "source-map-support": "^0.5.19"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
     "@babel/preset-env": "^7.14.5",
     "@babel/preset-typescript": "^7.14.5",
-    "@types/require-all": "^3.0.2",
     "@types/jest": "^26.0.23",
+    "@types/require-all": "^3.0.2",
     "babel-jest": "^27.0.2",
     "jest": "^27.0.4",
+    "ts-node": "^9.1.1",
     "ts-node-dev": "^1.1.1",
     "typescript": "^4.1.3"
   }

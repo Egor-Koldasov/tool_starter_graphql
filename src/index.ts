@@ -2,7 +2,6 @@ import { ApolloServer } from 'apollo-server';
 import { getResolvers } from './resolvers';
 import typeDefs from './schema';
 
-
 const server = new ApolloServer({ typeDefs, resolvers: getResolvers() });
 
 const port = 4000;
