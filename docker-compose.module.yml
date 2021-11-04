@@ -1,6 +1,7 @@
 version: "3.9"
 services:
   graphql:
+    restart: always
     build: ./
     ports:
       - "4000:4000"
@@ -12,3 +13,5 @@ services:
       - ./globals.d.ts:/app/globals.d.ts
       - ./jest.config.ts:/app/jest.config.ts
       - ./babel.config.js:/app/babel.config.js
+      - ./dev.env:/app/dev.env
+      - ./test.env:/app/test.env

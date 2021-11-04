@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt'
 import { AppContext } from "../types/AppContext";
-import { db } from "../database/db-connection"
 import User from "../database/User";
 import { addAuthToken } from '../tokenAuth';
+import { db } from '../database/db-connection';
 
 interface Args {
   email: string,

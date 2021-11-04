@@ -3,7 +3,7 @@ import config from "./config";
 import { db } from "./database/db-connection";
 import { AppRequest } from "./types/AppRequest";
 import User from "./database/User";
-import { v5 as uuidv5 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 
 const getUserFromToken = async (token: string) => {
@@ -18,7 +18,7 @@ export const authMiddleware = () => async (req: Request, res: Response, next: Ne
   next();
 }
 export const addAuthToken = async (user: User, res: Response) => {
-  const token = uuidv5(user.email, config.uuidNamespace);
+  const token = uuidv4();
   await db('auth').insert({token, user_id: user.id});
   res.cookie(config.authCookieName, token, {sameSite: 'none', secure: true, signed: true});
 }

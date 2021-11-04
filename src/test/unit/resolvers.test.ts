@@ -1,4 +1,4 @@
-import { getResolvers } from "./resolvers";
+import { getResolvers } from "../../schema/resolvers"
 
 
 describe('Resolvers', () => {

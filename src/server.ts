@@ -1,3 +1,4 @@
+import './database/env/load-dev';
 import { ApolloServer, ExpressContext } from 'apollo-server-express';
 import { getResolvers } from './schema/resolvers';
 import typeDefs from './schema/schema';
@@ -6,10 +7,12 @@ import cookieParser from 'cookie-parser';
 import { authMiddleware } from './tokenAuth';
 import { ApolloServerPluginLandingPageLocalDefault } from "apollo-server-core";
 import config from './config';
+import { initDatabase } from './database/db-connection';
 
 interface ListenParams {port: number};
 
-const startServer = async ({port = 4000} = {}) => {
+export const startServer = async () => {
+  const port = config.graphqlPort;
   const server = new ApolloServer({
     context: (expressContext: ExpressContext) => expressContext,
     typeDefs,
@@ -30,7 +33,6 @@ const startServer = async ({port = 4000} = {}) => {
   });
   const listen = async (params: ListenParams) => new Promise<void>((resolve) => app.listen(params, resolve));
   await listen({port});
-  console.log(`Graphql server started: localhost:${port}/graphql`);
+  await initDatabase();
+  console.log(`Graphql server started: localhost:${port}/graphql (${process.env.DB_NAME})`);
 }
-
-startServer({port: config.graphqlPort});
