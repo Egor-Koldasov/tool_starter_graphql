@@ -7,7 +7,6 @@ import cookieParser from 'cookie-parser';
 import { authMiddleware } from './tokenAuth';
 import { ApolloServerPluginLandingPageLocalDefault } from "apollo-server-core";
 import config from './config';
-import { initDatabase } from './database/db-connection';
 
 interface ListenParams {port: number};
 
@@ -33,6 +32,5 @@ export const startServer = async () => {
   });
   const listen = async (params: ListenParams) => new Promise<void>((resolve) => app.listen(params, resolve));
   await listen({port});
-  await initDatabase();
   console.log(`Graphql server started: localhost:${port}/graphql (${process.env.DB_NAME})`);
 }
