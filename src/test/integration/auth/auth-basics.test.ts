@@ -1,7 +1,6 @@
 import { gql } from '@apollo/client/core';
-import { query } from 'express';
 import { db } from '../../../database/db-connection';
-import { startServer } from "../../../server"
+import { cleanupIntegrationTests, setupIntegrationTests } from '../../util/setup-test-server';
 import { testApolloClient } from '../../util/testApolloClient';
 
 const testUsers = [
@@ -11,15 +10,16 @@ const testUsers = [
   }
 ]
 const clearTestUsers = async () => {
-  await db('app_user').modify((query) => testUsers.map(({email}) => query.orWhere({email}))).del()
+  return db('app_user').modify((query) => testUsers.map(({email}) => query.orWhere({email}))).del()
 }
 describe('Auth basics', () => {
   beforeAll(async () => {
-    await startServer();
+    await setupIntegrationTests()
     await clearTestUsers();
   })
   afterAll(async () => {
     await clearTestUsers();
+    await cleanupIntegrationTests()
   })
   test('sign up', async () => {
     await testApolloClient(async (client) => {

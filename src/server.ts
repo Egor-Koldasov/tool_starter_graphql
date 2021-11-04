@@ -1,5 +1,6 @@
 import './database/env/load-dev';
 import { ApolloServer, ExpressContext } from 'apollo-server-express';
+import type {Server} from 'http';
 import { getResolvers } from './schema/resolvers';
 import typeDefs from './schema/schema';
 import express from 'express';
@@ -12,25 +13,30 @@ interface ListenParams {port: number};
 
 export const startServer = async () => {
   const port = config.graphqlPort;
-  const server = new ApolloServer({
+  const apolloServer = new ApolloServer({
     context: (expressContext: ExpressContext) => expressContext,
     typeDefs,
     resolvers: getResolvers(),
     plugins: [ApolloServerPluginLandingPageLocalDefault()],
   });
-  await server.start();
+  await apolloServer.start();
   const app = express();
   app.use(cookieParser(config.cookiesSecret));
   app.use(authMiddleware());
   // for cookies to work in apollo explorer
-  server.applyMiddleware({
+  apolloServer.applyMiddleware({
     app,
     cors: {
       origin: ['https://studio.apollographql.com'],
       credentials: true,
     },
   });
-  const listen = async (params: ListenParams) => new Promise<void>((resolve) => app.listen(params, resolve));
-  await listen({port});
+  const listen = async (params: ListenParams) => new Promise<Server> ((resolve) => {
+    const server: Server = app.listen(params, () => resolve(server));
+  });
+  const server = await listen({port});
   console.log(`Graphql server started: localhost:${port}/graphql (${process.env.DB_NAME})`);
+  server.on('close', () => console.log('Graphql server closing'));
+  server.on('error', (error: any) => console.log('Graphql server error', error));
+  return server;
 }
