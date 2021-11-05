@@ -1,3 +1,5 @@
+import { identity } from "ramda";
+
 const dbConfig = {
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -5,8 +7,14 @@ const dbConfig = {
   database: process.env.DB_NAME,
 };
 
+const envToString = (env: string | undefined) => env ? env : ''
+
+const corsOriginsStr = envToString(process.env.CORS_ORIGINS) || 'https://studio.apollographql.com,http://localhost:3000';
+const corsOrigins = corsOriginsStr.split(',').map(o => o.trim()).filter(identity);
+
 const config = {
-  graphqlPort: parseInt(String(process.env.GRAPHQL_PORT)) || 4000,
+  graphqlPort: parseInt(envToString(process.env.GRAPHQL_PORT)) || 4000,
+  corsOrigins,
   db: dbConfig,
   // auth
   cookiesSecret: process.env.COOKIE_SECRET || '37e87192-1de4-4595-b317-cdf0ead367a7',

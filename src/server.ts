@@ -27,7 +27,9 @@ export const startServer = async () => {
   apolloServer.applyMiddleware({
     app,
     cors: {
-      origin: ['https://studio.apollographql.com'],
+      origin: [
+        ...config.corsOrigins,
+      ],
       credentials: true,
     },
   });
