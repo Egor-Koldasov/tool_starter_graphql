@@ -6,6 +6,5 @@ describe('Resolvers', () => {
   test('props exist', () => {
     expect(resolvers).toHaveProperty('Query')
     expect(resolvers.Query).toHaveProperty('me')
-    expect(resolvers.Query).toHaveProperty('user')
   })
 })

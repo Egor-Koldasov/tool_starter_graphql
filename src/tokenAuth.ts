@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, response, Response } from "express";
 import config from "./config";
 import { db } from "./database/db-connection";
 import { AppRequest } from "./types/AppRequest";
@@ -21,4 +21,7 @@ export const addAuthToken = async (user: User, res: Response) => {
   const token = uuidv4();
   await db('auth').insert({token, user_id: user.id});
   res.cookie(config.authCookieName, token, {sameSite: 'none', secure: true, signed: true});
+}
+export const removeAuthToken = async (res: Response) => {
+  res.clearCookie(config.authCookieName);
 }

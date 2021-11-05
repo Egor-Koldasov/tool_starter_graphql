@@ -14,7 +14,7 @@ const signup = async (args: Args, context: AppContext) => {
   if (existingUser) {
     return {
       success: false,
-      message: 'This email already in use',
+      message: 'This email is already in use',
     };
   }
   const passwordHash = await util.promisify(bcrypt.hash)(args.password, 10);
