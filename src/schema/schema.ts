@@ -1,33 +1,9 @@
 import { gql } from 'apollo-server';
+import {readFile} from 'fs';
+import {promisify} from 'util';
+import {resolve} from 'path';
 
-
-const typeDefs = gql`
-  type User {
-    id: Int!
-    email: String!
-  }
-
-  type AuthResponse {
-    success: Boolean!
-    message: String
-    me: User
-  }
-
-  type Response {
-    success: Boolean!
-    message: String
-  }
-
-  type Query {
-    me: User
-    user(id: Int!): User
-  }
-
-  type Mutation {
-    login(email: String, password: String): AuthResponse
-    signup(email: String, password: String): AuthResponse
-    logout: Response
-  }
-`;
-
-export default typeDefs;
+export const getSchema = async () => {
+  const schemaStr = await promisify(readFile)(resolve(__dirname, 'schema.gql'), {encoding: 'utf-8'});
+  return gql(schemaStr);
+}

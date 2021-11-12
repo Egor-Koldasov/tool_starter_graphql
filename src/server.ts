@@ -2,7 +2,7 @@ import './database/env/load-dev';
 import { ApolloServer, ExpressContext } from 'apollo-server-express';
 import type {Server} from 'http';
 import { getResolvers } from './schema/resolvers';
-import typeDefs from './schema/schema';
+import { getSchema } from './schema/schema';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import { authMiddleware } from './tokenAuth';
@@ -13,9 +13,10 @@ interface ListenParams {port: number};
 
 export const startServer = async () => {
   const port = config.graphqlPort;
+  const schema = await getSchema();
   const apolloServer = new ApolloServer({
     context: (expressContext: ExpressContext) => expressContext,
-    typeDefs,
+    typeDefs: schema,
     resolvers: getResolvers(),
     plugins: [ApolloServerPluginLandingPageLocalDefault()],
   });

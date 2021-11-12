@@ -12,7 +12,8 @@
     "dev___": "forever start -f -a -w --uid graphql -c 'node --trace-warnings --inspect -r ts-node/register' src/start.ts && forever logs -f 0",
     "dev__": "ts-node-dev ./src/start.ts",
     "test": "docker-compose --env-file ./test.env run --rm graphql npm run test_in",
-    "test_in": "node --trace-warnings --async-stack-traces node_modules/.bin/jest"
+    "test_in": "node --trace-warnings --async-stack-traces node_modules/.bin/jest",
+    "rebuild": "docker-compose stop graphql && docker-compose up -d --build graphql"
   },
   "author": "Egor Koldasov",
   "license": "ISC",
@@ -25,7 +26,7 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "forever": "^4.0.1",
-    "graphql": "^15.5.1",
+    "graphql": "^16.0.1",
     "knex": "^0.95.13",
     "nodemon": "^2.0.12",
     "pg": "^8.5.1",
